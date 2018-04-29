@@ -43,8 +43,6 @@ public class AuthController {
             session.setAttribute("uuid", uuid.toString());
             Map<String, String> responseContent = new HashMap<String, String>();
             responseContent.put("sid", uuid.toString());
-            responseContent.put("auth", "OAuth");
-            responseContent.put("Method", "GET");
             return new ResponseEntity<Map>(responseContent, HttpStatus.OK);
         }
         else {
