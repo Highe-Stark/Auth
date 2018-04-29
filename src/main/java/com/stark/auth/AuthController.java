@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 @Controller
@@ -39,7 +41,11 @@ public class AuthController {
             session.setAttribute("user", userid);
             UUID uuid = UUID.randomUUID();
             session.setAttribute("uuid", uuid.toString());
-            return new ResponseEntity(uuid.toString(), HttpStatus.ACCEPTED);
+            Map<String, String> responseContent = new HashMap<String, String>();
+            responseContent.put("sid", uuid.toString());
+            responseContent.put("auth", "OAuth");
+            responseContent.put("Method", "GET");
+            return new ResponseEntity<Map>(responseContent, HttpStatus.OK);
         }
         else {
             HttpSession session = request.getSession(false);
@@ -61,7 +67,7 @@ public class AuthController {
         }
         HttpSession session = request.getSession(false);
         if (session != null && sid.equals(session.getAttribute("uuid"))) {
-            return new ResponseEntity(HttpStatus.ACCEPTED);
+            return new ResponseEntity(HttpStatus.OK);
         }
         else{
             if (session != null)
